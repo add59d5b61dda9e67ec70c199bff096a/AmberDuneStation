@@ -240,7 +240,7 @@
 		<script>
 			document.getElementById("enter-station").addEventListener("click", function() {
 				window.webkit.messageHandlers.AmberDuneStation.postMessage({
-					action: "enter"
+					enter: ""
 				});
 				this.textContent = "ENTER STATION ✓";
 				setTimeout(function() {
