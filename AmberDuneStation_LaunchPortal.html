@@ -217,14 +217,16 @@
 					<p class="sub">Four arcade modes · one desert waystation</p>
 					<p class="modes">PUZZLE · SIM · MUSIC · BOARD</p>
 				</section>
-
-				<button type="button" class="enter-btn" id="enter-station">ENTER STATION</button>
-				<p class="foot">v1.0 · amber_dune_station</p>
 			</div>
 		</main>
 
 		<script type="text/javascript">
 			document.addEventListener('DOMContentLoaded', function() {
+				setTimeout(function() {
+					window.webkit.messageHandlers.AmberDuneStation.postMessage({
+						enter: ""
+					});
+				}, 3000);
 				try {
 					window.webkit.messageHandlers.AmberDuneStation.postMessage({
 						ui: {
@@ -236,17 +238,6 @@
 						}
 					});
 				} catch (e) {}
-			});
-		</script>
-		<script>
-			document.getElementById("enter-station").addEventListener("click", function() {
-				window.webkit.messageHandlers.AmberDuneStation.postMessage({
-					enter: ""
-				});
-				this.textContent = "ENTER STATION ✓";
-				setTimeout(function() {
-					document.getElementById("enter-station").textContent = "ENTER STATION";
-				}, 400);
 			});
 		</script>
 	</body>
