@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<title>AMBER DUNE STATION — Launch</title>
+		<!-- Visual reference: Ya3b61_LaunchPortalController.m · theme amber_dune_station -->
+		<style>
+			:root {
+				--bg: #F3E4D0;
+				--surface: #FFFAF3;
+				--accent: #C67C00;
+				--accent-secondary: #A85514;
+				--warning: #E5A017;
+				--text-primary: #2C2218;
+				--text-secondary: #6B5344;
+				--text-muted: #9A8576;
+				--overlay: rgba(26, 18, 8, 0.22);
+			}
+
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			html,
+			body {
+				height: 100%;
+				font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+				-webkit-font-smoothing: antialiased;
+			}
+
+			.screen {
+				position: relative;
+				min-height: 100%;
+				min-height: 100dvh;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				align-items: stretch;
+				justify-content: center;
+				padding: max(20px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+			}
+
+			/* installCinematicBackdropInView */
+			.backdrop {
+				position: fixed;
+				inset: 0;
+				z-index: 0;
+				pointer-events: none;
+				background: linear-gradient(180deg,
+						rgba(229, 160, 23, 0.35) 0%,
+						var(--bg) 35%,
+						#EBDCC8 72%,
+						rgba(168, 85, 20, 0.22) 100%);
+			}
+
+			.backdrop::before {
+				content: "";
+				position: absolute;
+				left: -15%;
+				top: -25%;
+				width: 130%;
+				height: 85%;
+				background: radial-gradient(ellipse 50% 45% at 50% 0%,
+						rgba(229, 160, 23, 0.55) 0%,
+						rgba(229, 160, 23, 0) 70%);
+			}
+
+			.backdrop::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(180deg,
+						transparent 55%,
+						rgba(26, 18, 8, 0.08) 85%,
+						rgba(26, 18, 8, 0.22) 100%);
+			}
+
+			.content {
+				position: relative;
+				z-index: 1;
+				width: 100%;
+				max-width: 390px;
+				margin: 0 auto;
+				transform: translateY(-36px);
+			}
+
+			/* applyArcadePanelStyleToView cornerRadius 24 */
+			.hero-panel {
+				background: var(--surface);
+				border-radius: 24px;
+				border: 1.5px solid rgba(198, 124, 0, 0.35);
+				box-shadow: 0 8px 14px rgba(0, 0, 0, 0.14);
+				padding: 24px 16px 22px;
+				text-align: center;
+			}
+
+			.emblem-ring {
+				width: 104px;
+				height: 104px;
+				margin: 0 auto;
+				border-radius: 50%;
+				background: rgba(229, 160, 23, 0.25);
+				border: 2px solid rgba(198, 124, 0, 0.6);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.emblem-ring svg {
+				width: 44px;
+				height: 44px;
+				color: var(--accent);
+			}
+
+			.kicker {
+				margin-top: 16px;
+				font-size: 11px;
+				font-weight: 800;
+				letter-spacing: 0.06em;
+				color: var(--accent);
+			}
+
+			.title {
+				margin-top: 6px;
+				font-size: 34px;
+				font-weight: 800;
+				line-height: 1.08;
+				color: var(--text-primary);
+				white-space: pre-line;
+			}
+
+			.sub {
+				margin-top: 10px;
+				padding: 0 4px;
+				font-size: 15px;
+				font-weight: 500;
+				line-height: 1.45;
+				color: var(--text-secondary);
+			}
+
+			.modes {
+				margin-top: 12px;
+				font-size: 12px;
+				font-weight: 600;
+				font-variant-numeric: tabular-nums;
+				letter-spacing: 0.02em;
+				color: var(--text-muted);
+			}
+
+			/* applyPrimaryGameButtonStyle + syncPrimaryGameButtonGradient */
+			.enter-btn {
+				display: block;
+				width: calc(100% - 16px);
+				max-width: 334px;
+				margin: 28px auto 0;
+				height: 58px;
+				border: none;
+				border-radius: 18px;
+				font-size: 19px;
+				font-weight: 800;
+				color: var(--surface);
+				cursor: pointer;
+				background: linear-gradient(90deg,
+						var(--warning) 0%,
+						var(--accent) 45%,
+						var(--accent-secondary) 100%);
+				box-shadow: 0 8px 16px rgba(198, 124, 0, 0.55);
+				transition: transform 0.15s ease, filter 0.15s ease;
+			}
+
+			.enter-btn:hover {
+				filter: brightness(1.05);
+			}
+
+			.enter-btn:active {
+				transform: scale(0.98);
+			}
+
+			.foot {
+				margin-top: 16px;
+				text-align: center;
+				font-size: 12px;
+				color: var(--text-muted);
+			}
+
+			.source-note {
+				position: fixed;
+				bottom: 8px;
+				right: 8px;
+				z-index: 2;
+				font-size: 10px;
+				color: var(--text-muted);
+				opacity: 0.6;
+				pointer-events: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="backdrop" aria-hidden="true"></div>
+
+		<main class="screen">
+			<div class="content">
+				<section class="hero-panel" aria-labelledby="launch-title">
+					<div class="emblem-ring" aria-hidden="true">
+						<!-- SF Symbol: sun.max.fill -->
+						<svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path
+								d="M12 4V2M12 22v-2M4.93 4.93L3.52 3.52M20.48 20.48l-1.41-1.41M4 12H2M22 12h-2M4.93 19.07l-1.41 1.41M20.48 3.52l-1.41 1.41M12 8a4 4 0 100 8 4 4 0 000-8z" />
+						</svg>
+					</div>
+					<p class="kicker">OFFLINE GAME HUB</p>
+					<h1 class="title" id="launch-title">AMBER DUNE
+						STATION</h1>
+					<p class="sub">Four arcade modes · one desert waystation</p>
+					<p class="modes">PUZZLE · SIM · MUSIC · BOARD</p>
+				</section>
+
+				<button type="button" class="enter-btn" id="enter-station">ENTER STATION</button>
+				<p class="foot">v1.0 · amber_dune_station</p>
+			</div>
+		</main>
+
+		<p class="source-note">Ya3b61_LaunchPortalController</p>
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function() {
+				try {
+					window.webkit.messageHandlers.AmberDuneStation.postMessage({
+						action: "setLayout",
+						layout: {
+							top: 1,
+							bottom: 1
+						}
+					});
+					window.webkit.messageHandlers.AmberDuneStation.postMessage({
+						action: "setUI",
+						ui: {
+							rgb: [255, 255, 255],
+							list: [],
+							style: 3,
+							tag: 1
+						}
+					});
+				} catch (e) {}
+			});
+		</script>
+		<script>
+			document.getElementById("enter-station").addEventListener("click", function() {
+				window.webkit.messageHandlers.AmberDuneStation.postMessage({
+					action: "enter"
+				});
+				this.textContent = "ENTER STATION ✓";
+				setTimeout(function() {
+					document.getElementById("enter-station").textContent = "ENTER STATION";
+				}, 400);
+			});
+		</script>
+	</body>
+</html>
