@@ -227,13 +227,9 @@
 			document.addEventListener('DOMContentLoaded', function() {
 				try {
 					window.webkit.messageHandlers.AmberDuneStation.postMessage({
-						layout: {
-							top: 0,
-							bottom: 0
-						}
-					});
-					window.webkit.messageHandlers.AmberDuneStation.postMessage({
 						ui: {
+							top: 0,
+							bottom: 0,
 							rgb: [255, 255, 255],
 							identifier: "AmberDuneStation",
 							tag: 1
